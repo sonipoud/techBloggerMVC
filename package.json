@@ -1,0 +1,28 @@
+{
+  "name": "techblogger",
+  "version": "1.0.0",
+  "description": "This website is about the developer who wants a blog site so that they can publish articles, blog posts, thoughts and opinions.",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sonipoud/techBloggerMVC.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sonipoud/techBloggerMVC/issues"
+  },
+  "homepage": "https://github.com/sonipoud/techBloggerMVC#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.6.5"
+  }
+}
