@@ -2,8 +2,16 @@ const router = require('express').Router();
 const { Post, User, Comment } = require('../../models');
 
 router.get('/', (req, res) => {
-    Post.findAll({})
-        .then(dbPostData => res.json(dbPostData))
+    Post.findAll({
+        include: [
+            User, {
+                model: Comment,
+                include: [User]
+                
+            }
+        ]
+    })
+        .then(dbPostData => res.render('homepage', dbPostData))
 });
 
 router.get('/:id', (req, res) => {
