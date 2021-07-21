@@ -3,7 +3,7 @@ const { User, Post, Comment } = require('../../models');
 
 // get all users
 router.get('/', (req, res) => {
-    User.findAll(req.body)
+    User.findAll({})
         .then(dbUserData => res.json(dbUserData))
 });
 
@@ -23,7 +23,6 @@ router.post('/', (req, res) => {
         .then(dbUserData => {
             res.json(dbUserData);
         });
-})
 });
 
 router.put('/:id', (req, res) => {
