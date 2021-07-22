@@ -21,7 +21,13 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     User.create(req.body)
         .then(dbUserData => {
-            res.json(dbUserData);
+            req.session.save(() => {
+                req.session.user_id = dbUserData.id;
+                req.session.username = dbUserData.username;
+                req.session.loggedIn = true;
+
+                res.json(dbUserData);
+            });
         });
 });
 
