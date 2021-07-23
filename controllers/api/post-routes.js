@@ -7,7 +7,6 @@ router.get('/', (req, res) => {
             User, {
                 model: Comment,
                 include: [User]
-                
             }
         ]
     })
@@ -18,11 +17,17 @@ router.get('/:id', (req, res) => {
     Post.findOne({
         where: {
             id: req.params.id
-        }
-            .then(dbPostData => {
-                res.json(dbPostData);
-            })
+        },
+        include: [
+            User, {
+                model: Comment,
+                include: [User]
+            }
+        ]
     })
+        .then(dbPostData => {
+            res.json(dbPostData);
+        })
 });
 
 router.post('/', (req, res) => {
