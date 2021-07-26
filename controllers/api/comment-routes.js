@@ -17,7 +17,13 @@ router.delete('/:id', (req, res) => {
       id: req.params.id
     }
   })
-    .then(dbCommentData => res.json(dbCommentData))
+    .then(dbCommentData => {
+      if (!dbCommentData) {
+        res.status(404).json({ message: 'No post found with this id' });
+        return;
+      }
+      res.json(dbCommentData)
+    });
 });
 
 module.exports = router;
