@@ -6,12 +6,26 @@
             <input name="content" type="text" value="{{post.content}}" class="form-input" />
         </div>
         <div>
+            Posted by {{user.username}} on {{format_date created_at}}
+            <a href="/post/{{post.id}}">{{post.comments.length}} comments</a>
+        </div>
+        <div>
             <button type="submit" class="btn">Update Post</button>
             <button type="button" class="delete-post-btn btn">Delete Post</button>
         </div>
 
     </form>
 </article>
+
+<form class="comment-form">
+    <div>
+        <textarea name="comment-body"></textarea>
+    </div>
+
+    <div>
+        <button type="submit">add comment</button>
+    </div>
+</form>
 
 <script src="/javascript/edit-post.js"></script>
 <script src="/javascript/delete-post.js"></script>
