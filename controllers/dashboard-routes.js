@@ -37,7 +37,10 @@ router.get('/', withAuth, (req, res) => {
 });
 
 router.get('/edit/:id', (req, res) => {
-  Post.findOne(req.params.id, {
+  Post.findOne({
+    where: {
+      id: req.params.id
+    },
     attributes: [
       'id',
       'title',
@@ -46,30 +49,22 @@ router.get('/edit/:id', (req, res) => {
     ],
     include: [
       {
+        model: User,
+        attributes: ['username']
+      },
+      {
         model: Comment,
         attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
         include: {
           model: User,
           attributes: ['username']
         }
-      },
-      {
-        model: User,
-        attributes: ['username']
       }
     ]
   })
     .then(dbPostData => {
-      if (dbPostData) {
         const post = dbPostData.get({ plain: true });
-        
-        res.render('edit-post', {
-          post,
-          loggedIn: true
-        });
-      } else {
-        res.status(404).end();
-      }
+        res.render('edit-post', {post, loggedIn: true});
     })
 });
 

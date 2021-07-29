@@ -26,11 +26,20 @@ router.get('/', (req, res) => {
         ]
     }).then(dbPostData => {
         const posts = dbPostData.map(post => post.get({ plain: true }));
-        res.render('homepage', {
-            posts,
-            loggedIn: req.session.loggedIn
-        });
+        res.render('homepage', { posts, loggedIn: req.session.loggedIn });
     })
+});
+
+router.get('/login', (req, res) => {
+    if (req.session.loggedIn) {
+        res.redirect('/');
+        return;
+    }
+    res.render('login');
+});
+
+router.get('/signup', (req, res) => {
+    res.render('signup');
 });
 
 router.get('/post/:id', (req, res) => {
@@ -44,36 +53,55 @@ router.get('/post/:id', (req, res) => {
             'content',
             'created_at'
         ],
-        include: [
-            {
-                model: Comment,
-                attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
-                include: {
-                    model: User,
-                    attributes: ['username']
-                }
-            },
-            {
+        include: [{
+            model: Comment,
+            attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+            include: {
                 model: User,
                 attributes: ['username']
             }
+        },
+        {
+            model: User,
+            attributes: ['username']
+        }
         ]
     })
         .then(dbPostData => {
             const post = dbPostData.get({ plain: true });
-            res.render('post', {
-                post,
-                loggedIn: req.session.loggedIn
-            });
+            res.render('single-post', { post, loggedIn: req.session.loggedIn });
         })
 });
 
-router.get('/login', (req, res) => {
-    if (req.session.loggedIn) {
-        res.redirect('/');
-        return;
-    }
-    res.render('login');
-});
+// router.get('/posts-comments', (req, res) => {
+//     Post.findOne({
+//         where: {
+//             id: req.params.id
+//         },
+//         attributes: [
+//             'id',
+//             'content',
+//             'title',
+//             'created_at'
+//         ],
+//         include: [{
+//             model: Comment,
+//             attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+//             include: {
+//                 model: User,
+//                 attributes: ['username']
+//             }
+//         },
+//         {
+//             model: User,
+//             attributes: ['username']
+//         }
+//         ]
+//     })
+//         .then(dbPostData => {
+//             const post = dbPostData.get({ plain: true });
+//             res.render('posts-comments', { post, loggedIn: req.session.loggedIn });
+//         })
+// });
 
 module.exports = router;

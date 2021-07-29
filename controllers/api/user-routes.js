@@ -3,27 +3,49 @@ const { User, Post, Comment } = require('../../models');
 
 // get all users
 router.get('/', (req, res) => {
-  User.findAll({})
+  User.findAll({
+    attributes: { exclude: ['password'] }
+  })
     .then(dbUserData => res.json(dbUserData))
 });
 
 router.get('/:id', (req, res) => {
   User.findOne({
+    attributes: { exclude: ['password'] },
     where: {
       id: req.params.id
     },
-  })
-    .then(dbUserData => {
-      if (!dbUserData) {
-        res.status(404).json({ message: 'No post found with this id' });
-        return;
+    include: [{
+      model: Post,
+      attributes: [
+        'id',
+        'title',
+        'content',
+        'created_at'
+      ]
+    },
+    {
+      model: Comment,
+      attributes: ['id', 'comment_text', 'created_at'],
+      include: {
+        model: Post,
+        attributes: ['title']
       }
-      res.json(dbUserData);
-    })
+    },
+    {
+      model: Post,
+      attributes: ['title'],
+    }
+    ]
+  })
+    .then(dbUserData => { res.json(dbUserData) });
 });
 
 router.post('/', (req, res) => {
-  User.create(req.body)
+  User.create({
+    username: req.body.username,
+    password: req.body.password
+  })
     .then(dbUserData => {
       req.session.save(() => {
         req.session.user_id = dbUserData.id;
@@ -41,15 +63,7 @@ router.post('/login', (req, res) => {
       email: req.body.email
     }
   }).then(dbUserData => {
-    if (!dbUserData) {
-      res.status(404).json({ message: 'No user with that email address!' });
-      return;
-    }
     const validPassword = dbUserData.checkPassword(req.body.password);
-    if (!validPassword) {
-      res.status(400).json({ message: 'Incorrect password!' });
-      return;
-    }
     req.session.save(() => {
       req.session.user_id = dbUserData.id;
       req.session.username = dbUserData.username;
@@ -77,12 +91,7 @@ router.put('/:id', (req, res) => {
       id: req.params.id
     }
   })
-    .then(dbUserData => {
-      if (!dbUserData) {
-        res.status(404).json({ message: 'No post found with this id' });
-        return;
-      }
-      res.json(dbUserData);
+    .then(dbUserData => {res.json(dbUserData);
     })
 });
 
@@ -92,12 +101,7 @@ router.delete('/:id', (req, res) => {
       id: req.params.id
     }
   })
-    .then(dbUserData => {
-      if (!dbUserData) {
-        res.status(404).json({ message: 'No post found with this id' });
-        return;
-      }
-      res.json(dbUserData);
+    .then(dbUserData => {res.json(dbUserData);
     })
 });
 
