@@ -14,9 +14,10 @@
     </form>
 </section>
 
-{{#if posts.length}}
+
 <section>
     <h2>Your Posts</h2>
+    {{#if posts.length}}
     <ol>
         {{#each posts as |post|}}
         <li>
@@ -25,7 +26,8 @@
         </li>
         {{/each}}
     </ol>
+    {{/if}}
 </section>
-{{/if}}
+
 
 <script src="/javascript/add-post.js"></script>

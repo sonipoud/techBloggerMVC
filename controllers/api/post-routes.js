@@ -60,7 +60,11 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', withAuth, (req, res) => {
-    Post.create(req.body)
+    Post.create({
+        user_id: req.session.user_id,
+        title: req.body.title,
+        content: req.body.content
+    })
         .then(dbPostData => res.json(dbPostData))
 });
 
