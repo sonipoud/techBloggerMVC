@@ -1,31 +1,28 @@
 <article>
-    <h2> Edit Post </h2>
-    <form class="edit-post-form">
-        <div>
-            <input name="post-title" type="text" value="{{post.title}}" />
-            <input name="content" type="text" value="{{post.content}}" class="form-input" />
-        </div>
-        <div>
-            Posted by {{user.username}} on {{format_date created_at}}
-            <a href="/post/{{post.id}}">{{post.comments.length}} comments</a>
-        </div>
-        <div>
-            <button type="submit" class="btn">Update Post</button>
-            <button type="button" class="delete-post-btn btn">Delete Post</button>
-        </div>
+    <div class="card #ffffff white">
+        <div class="card-content black-text">
+            <h2> Edit Post </h2>
+            <form class="edit-post-form">
+                <div>
+                    <label for="post-title">Title</label>
+                    <input name="post-title" type="text" value="{{post.title}}" />
+                </div>
+                <div>
+                    <label for="content">Content</label>
+                    <input name="content" type="text" value="{{post.content}}" class="form-input" />
+                </div>
 
-    </form>
+                <div>
+                    Posted by {{user.username}} on {{format_date post.created_at}}
+                    <a href="/post/{{post.id}}">{{post.comments.length}} comments</a>
+                </div>
+                <div>
+                    <button type="submit" class="btn">Update Post</button>
+                    <button type="button" class="delete-post-btn btn">Delete Post</button>
+                </div>
+        </div>
+        </form>
 </article>
-
-<form class="comment-form">
-    <div>
-        <textarea name="comment-body"></textarea>
-    </div>
-
-    <div>
-        <button type="submit">add comment</button>
-    </div>
-</form>
 
 <script src="/javascript/edit-post.js"></script>
 <script src="/javascript/delete-post.js"></script>
