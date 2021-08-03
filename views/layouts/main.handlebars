@@ -17,12 +17,12 @@
         <div class="nav-wrapper">
           <a href="/" class="brand-logo">My Blog</a>
           {{#if loggedIn}}
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <ul id="nav-mobile" class="right hide-on-med-and-down nav-margin">
             <li><a href="/dashboard">Dashboard</a></li>
             <li><button id="logout" class="btn-no-style">Logout</button></li>
           </ul>
           {{else}}
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <ul id="nav-mobile" class="right hide-on-med-and-down nav-margin">
             <li><a class="navbar-text" href="/login">Login</a></li>
             <li><a class="navbar-text" href="/signup">SignUp</a></li>
           </ul>
